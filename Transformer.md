@@ -98,7 +98,7 @@ El entrenamiento de modelos de lenguaje basados en Transformers ha experimentado
 - **Modelos enmascarados (Masked Language Models):**  
   En este paradigma, ejemplificado por BERT (Bidirectional Encoder Representations from Transformers), se ocultan (o enmascaran) aleatoriamente ciertos tokens de la secuencia y el modelo se entrena para predecirlos en función del contexto circundante. Este enfoque bidireccional permite que el modelo aprenda representaciones contextuales profundas y se utiliza como base para tareas de clasificación, respuesta a preguntas y análisis semántico.
 
-#### Preentrenamiento y Fine-Tuning
+#### Preentrenamiento y fine-tuning
 
 El proceso de preentrenamiento en modelos de lenguaje basados en Transformers implica entrenar la red en grandes corpus de datos no etiquetados para que aprenda representaciones lingüísticas ricas. Una vez preentrenado, el modelo se ajusta (fine-tuning) en tareas específicas utilizando conjuntos de datos más pequeños y etiquetados. Esta metodología presenta varias ventajas:
 
