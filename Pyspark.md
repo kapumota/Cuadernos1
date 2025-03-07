@@ -138,6 +138,3 @@ El almacenamiento en caché (o *persistencia*) es una técnica utilizada en Spar
   - La configuración inicial de la SparkSession (por ejemplo, a través de `appName()` y `config()`) es esencial para adaptar el comportamiento de Spark a las necesidades específicas de la aplicación.  
   - Dependiendo del entorno (local o en clúster), puede ser necesario ajustar parámetros relacionados con la memoria, el número de ejecutores y el paralelismo.
 
-
-
-
