@@ -159,7 +159,7 @@ spark.sql("SELECT count(*), cyl FROM cars GROUP BY cyl").show()
 - Las agregaciones son fundamentales en el análisis de datos, ya que permiten resumir y obtener estadísticas sobre grandes conjuntos de datos.
 
 
-### 7. Creación y Uso de UDFs con Pandas
+### 7. Creación y uso de UDFs con Pandas
 
 En el procesamiento de grandes volúmenes de datos, es común que se requieran operaciones personalizadas en columnas específicas. Los **UDFs (User Defined Functions)** permiten definir estas operaciones personalizadas. Tradicionalmente, los UDFs en Spark operaban fila por fila, lo cual implicaba una sobrecarga importante en la serialización de datos. Sin embargo, con los **Pandas UDFs** se puede aprovechar Apache Arrow para realizar operaciones a nivel de columna de manera eficiente.
 
