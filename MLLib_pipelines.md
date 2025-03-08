@@ -9,7 +9,7 @@ El uso de pipelines permite que todo el flujo de trabajo de Machine Learning se 
 
 ### 2. Pipeline de regresión con SparkML
 
-En este ejemplo, se utiliza el conjunto de datos “mpg”, que contiene información de automóviles (peso, potencia, desplazamiento del motor, etc.) y la variable objetivo es el consumo de combustible (MPG). Se crean tres etapas en el pipeline de regresión:
+En este ejemplo, se utiliza el conjunto de datos “mpg", que contiene información de automóviles (peso, potencia, desplazamiento del motor, etc.) y la variable objetivo es el consumo de combustible (MPG). Se crean tres etapas en el pipeline de regresión:
 
 #### 2.1. Etapa 1: Ensamblaje de características con *VectorAssembler*
 
@@ -24,7 +24,7 @@ En este ejemplo, se utiliza el conjunto de datos “mpg”, que contiene informa
   ```
 
 - **Explicación:**  
-  El *VectorAssembler* toma las columnas “Weight”, “Horsepower” y “Engine Disp” y las consolida en una sola columna llamada “features”. Esto es fundamental en SparkML ya que la mayoría de los algoritmos requieren que las características se presenten como un vector numérico.
+  El *VectorAssembler* toma las columnas “Weight", “Horsepower" y “Engine Disp" y las consolida en una sola columna llamada “features". Esto es fundamental en SparkML ya que la mayoría de los algoritmos requieren que las características se presenten como un vector numérico.
 
 #### 2.2. Etapa 2: Escalado de características con *StandardScaler*
 
@@ -54,7 +54,7 @@ En este ejemplo, se utiliza el conjunto de datos “mpg”, que contiene informa
   ```
 
 - **Explicación:**  
-  Se crea una instancia de regresión lineal que utiliza la columna “scaledFeatures” para entrenar el modelo y “MPG” como la variable objetivo. La regresión lineal es un método estadístico que modela la relación lineal entre las variables independientes y la dependiente.
+  Se crea una instancia de regresión lineal que utiliza la columna “scaledFeatures" para entrenar el modelo y “MPG" como la variable objetivo. La regresión lineal es un método estadístico que modela la relación lineal entre las variables independientes y la dependiente.
 
 #### 2.4. Construcción y ajuste del pipeline
 
@@ -104,7 +104,7 @@ En este ejemplo, se utiliza el conjunto de datos “mpg”, que contiene informa
 
 Para la tarea de clasificación se utiliza el conjunto de datos Iris. Este conjunto contiene mediciones de características de flores (por ejemplo, longitud y anchura del sépalo y pétalo) y una etiqueta que indica la especie de la flor. El proceso para construir un pipeline de clasificación es similar al de regresión, pero se agregan pasos específicos para manejar variables categóricas y se emplea un modelo de clasificación.
 
-#### 3.1. Carga y exploración del conjunto de Datos Iris
+#### 3.1. Carga y exploración del conjunto de datos Iris
 
 Primero, se carga el conjunto de datos Iris en un DataFrame de Spark. Se asume que el archivo CSV tiene encabezados y que Spark puede inferir los tipos de datos:
 
@@ -116,9 +116,9 @@ iris_data.show(5)
 ```
 
 - **Explicación:**  
-  Con la función `spark.read.csv` se carga el archivo, se establece que el archivo posee encabezado y se infiere el esquema automáticamente. La inspección del esquema y la visualización de algunas filas ayudan a entender la estructura de los datos y a identificar las columnas que contienen las características y la etiqueta (por ejemplo, “species”).
+  Con la función `spark.read.csv` se carga el archivo, se establece que el archivo posee encabezado y se infiere el esquema automáticamente. La inspección del esquema y la visualización de algunas filas ayudan a entender la estructura de los datos y a identificar las columnas que contienen las características y la etiqueta (por ejemplo, “species").
 
-### 3.2. Etapa 1: Ensamblaje de Características
+#### 3.2. Etapa 1: Ensamblaje de características
 
 Se utiliza nuevamente el *VectorAssembler* para combinar las columnas que representan las características en un solo vector:
 
@@ -130,11 +130,11 @@ vectorAssembler2 = VectorAssembler(
 ```
 
 - **Explicación:**  
-  Este paso es similar al de la regresión. Se seleccionan las columnas relevantes (en este caso, las medidas de los sépalos y pétalos) y se ensamblan en una columna “features”, que será la entrada para el modelo de clasificación.
+  Este paso es similar al de la regresión. Se seleccionan las columnas relevantes (en este caso, las medidas de los sépalos y pétalos) y se ensamblan en una columna “features", que será la entrada para el modelo de clasificación.
 
-### 3.3. Etapa 2: Indexación de la Etiqueta con *StringIndexer*
+#### 3.3. Etapa 2: Indexación de la etiqueta con *StringIndexer*
 
-Dado que la variable “species” es categórica (por ejemplo, “setosa”, “versicolor”, “virginica”), es necesario transformarla en un valor numérico para que el algoritmo pueda procesarla. Para ello, se utiliza *StringIndexer*:
+Dado que la variable "species" es categórica (por ejemplo, "setosa", "versicolor", "virginica"), es necesario transformarla en un valor numérico para que el algoritmo pueda procesarla. Para ello, se utiliza *StringIndexer*:
 
 ```python
 labelIndexer = StringIndexer(
@@ -144,9 +144,9 @@ labelIndexer = StringIndexer(
 ```
 
 - **Explicación:**  
-  *StringIndexer* asigna un índice numérico a cada categoría de la columna “species”. Este paso es esencial en la mayoría de los algoritmos de clasificación en SparkML, ya que requieren que las etiquetas sean numéricas. La columna resultante “label” contendrá estos índices.
+  *StringIndexer* asigna un índice numérico a cada categoría de la columna "species". Este paso es esencial en la mayoría de los algoritmos de clasificación en SparkML, ya que requieren que las etiquetas sean numéricas. La columna resultante "label" contendrá estos índices.
 
-### 3.4. Etapa 3: Modelo de Clasificación con *LogisticRegression*
+#### 3.4. Etapa 3: Modelo de clasificación con *LogisticRegression*
 
 En este ejemplo se utiliza la regresión logística, un algoritmo de clasificación lineal, que es sencillo pero efectivo para problemas de clasificación multiclase:
 
@@ -160,7 +160,7 @@ lr_classifier = LogisticRegression(
 - **Explicación:**  
   La regresión logística modela la probabilidad de que una instancia pertenezca a cada una de las clases. Aunque es un modelo lineal, puede ser muy efectivo en problemas de clasificación con fronteras de decisión lineales o cuando se preprocesan adecuadamente las características.
 
-### 3.5. Construcción del Pipeline de Clasificación
+#### 3.5. Construcción del pipeline de clasificación
 
 Se encadenan las etapas necesarias en un pipeline. En este caso, el pipeline para clasificación consta de tres etapas: ensamblaje de características, indexación de la etiqueta y el modelo de regresión logística.
 
@@ -171,7 +171,7 @@ pipeline_classifier = Pipeline(stages=[vectorAssembler2, labelIndexer, lr_classi
 - **Explicación:**  
   El pipeline se construye pasando las etapas en el orden correcto: primero se combinan las características, luego se transforma la etiqueta categórica en numérica y, finalmente, se entrena el modelo de clasificación.
 
-### 3.6. División, Ajuste y Evaluación del Pipeline de Clasificación
+#### 3.6. División, ajuste y evaluación del pipeline de clasificación
 
 Al igual que en el caso de regresión, es importante dividir el conjunto de datos en entrenamiento y prueba para evaluar el desempeño del modelo.
 
@@ -205,13 +205,11 @@ print("Accuracy =", accuracy)
 - **Explicación:**  
   El evaluador compara las etiquetas reales con las predichas y calcula la exactitud, que es la proporción de predicciones correctas. Este valor es crucial para entender qué tan bien el modelo clasifica las instancias del conjunto de prueba.
 
----
-
-## 4. Flujo de Trabajo y Componentes Clave
+### 4. Flujo de trabajo y componentes clave
 
 La implementación de pipelines en SparkML sigue una serie de pasos estructurados que permiten manejar todo el flujo de trabajo de Machine Learning de manera ordenada:
 
-### 4.1. Configuración e Importación de Librerías
+#### 4.1. Configuración e importación de librerías
 
 Antes de definir los pipelines es necesario configurar el entorno y cargar las librerías esenciales. Por ejemplo:
 
@@ -240,7 +238,7 @@ from pyspark.ml.evaluation import RegressionEvaluator, MulticlassClassificationE
 - **Explicación:**  
   Se configuran advertencias, se inicializa Spark y se importan los módulos necesarios para la creación y evaluación de modelos. Esto garantiza que todos los componentes estén disponibles para construir y ejecutar los pipelines.
 
-### 4.2. Creación de la SparkSession
+#### 4.2. Creación de la SparkSession
 
 La *SparkSession* es la entrada principal para trabajar con Spark. Se crea una sesión con un nombre identificativo:
 
@@ -251,9 +249,9 @@ spark = SparkSession.builder.appName("Ejemplo de un pipeline de ML").getOrCreate
 - **Explicación:**  
   La SparkSession gestiona el contexto de ejecución y permite leer datos, ejecutar transformaciones y entrenar modelos. Es esencial para cualquier aplicación en Spark.
 
-### 4.3. Carga y Exploración de Datos
+#### 4.3. Carga y exploración de datos
 
-El primer paso en cualquier proyecto de Machine Learning es la carga y exploración de datos. Por ejemplo, en el caso del conjunto “mpg”:
+El primer paso en cualquier proyecto de Machine Learning es la carga y exploración de datos. Por ejemplo, en el caso del conjunto "mpg":
 
 ```python
 mpg_data = spark.read.csv("mpg.csv", header=True, inferSchema=True)
@@ -264,33 +262,32 @@ mpg_data.show(5)
 - **Explicación:**  
   Se leen los datos del archivo CSV, se imprime el esquema para verificar los tipos de datos y se muestran algunas filas para entender la distribución y calidad de los datos.
 
----
 
-## 5. Detalle de cada Componente del Pipeline
+### 5. Detalle de cada componente del pipeline
 
-### 5.1. *VectorAssembler*
+#### 5.1. *VectorAssembler*
 
-- **Función Principal:**  
+- **Función principal:**  
   Este transformador combina varias columnas de entrada en una única columna de vector. Es crucial para preparar datos de entrada para los modelos ML en Spark, ya que la mayoría de ellos requieren que las características se encuentren en forma vectorial.
 
-- **Uso en Regresión y Clasificación:**  
+- **Uso en regresión y clasificación:**  
   En ambos ejemplos (mpg e iris), *VectorAssembler* se utiliza para agrupar las columnas numéricas relevantes. En el caso del conjunto de iris, se combinan medidas de sépalo y pétalo, mientras que en el conjunto de mpg se combinan variables relacionadas con las características del vehículo.
 
-### 5.2. *StandardScaler*
+#### 5.2. *StandardScaler*
 
-- **Función Principal:**  
+- **Función principal:**  
   Normaliza los datos, lo cual es particularmente útil en algoritmos de optimización que son sensibles a la escala de las variables.  
-- **Aplicación en el Pipeline de Regresión:**  
+- **Aplicación en el pipeline de regresión:**  
   Se aplica después del ensamblaje de las características para garantizar que todas las variables tengan media cero y varianza uno, mejorando así el rendimiento del modelo.
 
-### 5.3. *StringIndexer*
+#### 5.3. *StringIndexer*
 
-- **Función Principal:**  
-  Transforma variables categóricas (como “species” en el conjunto Iris) en índices numéricos.  
-- **Importancia en Clasificación:**  
+- **Función principal:**  
+  Transforma variables categóricas (como “species" en el conjunto Iris) en índices numéricos.  
+- **Importancia en clasificación:**  
   Permite convertir etiquetas textuales en valores numéricos que los algoritmos de clasificación pueden interpretar correctamente. Esto es fundamental para el modelo de regresión logística empleado en el pipeline de clasificación.
 
-### 5.4. Modelos: *LinearRegression* y *LogisticRegression*
+#### 5.4. Modelos: *LinearRegression* y *LogisticRegression*
 
 - **LinearRegression:**  
   Se utiliza para predecir una variable continua (en este caso, MPG). El modelo aprende una relación lineal entre las características (después de ser escaladas) y la variable objetivo.
@@ -298,15 +295,14 @@ mpg_data.show(5)
 - **LogisticRegression:**  
   Es un modelo de clasificación lineal que estima probabilidades para la pertenencia a cada clase. Se utiliza en el ejemplo del conjunto Iris para clasificar las especies de flores basándose en las características medidas.
 
----
 
-## 6. Ejecución y Evaluación de los Pipelines
+### 6. Ejecución y Evaluación de los Pipelines
 
 ### 6.1. Ajuste del Modelo
 
 Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante este ajuste, cada etapa se entrena secuencialmente. Esto significa que:
   
-- En el pipeline de regresión, *VectorAssembler* y *StandardScaler* se aplican a los datos para generar las columnas “features” y “scaledFeatures”, y luego el modelo de regresión aprende a predecir “MPG”.
+- En el pipeline de regresión, *VectorAssembler* y *StandardScaler* se aplican a los datos para generar las columnas “features" y “scaledFeatures", y luego el modelo de regresión aprende a predecir “MPG".
   
 - En el pipeline de clasificación, el ensamblaje de características y la indexación de etiquetas preparan los datos para que el clasificador (regresión logística) pueda aprender a distinguir entre las diferentes especies de iris.
 
@@ -319,7 +315,7 @@ Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante es
   Se utiliza el *RegressionEvaluator* para calcular el error cuadrático medio (RMSE). Esta métrica es especialmente útil para cuantificar el error de las predicciones en problemas de regresión.
 
 - **Evaluación del Modelo de Clasificación:**  
-  Para la clasificación, se emplea el *MulticlassClassificationEvaluator* con la métrica “accuracy”, que mide el porcentaje de instancias clasificadas correctamente. Esta evaluación es fundamental para entender la eficacia del modelo en distinguir entre múltiples clases.
+  Para la clasificación, se emplea el *MulticlassClassificationEvaluator* con la métrica “accuracy", que mide el porcentaje de instancias clasificadas correctamente. Esta evaluación es fundamental para entender la eficacia del modelo en distinguir entre múltiples clases.
 
 ---
 
@@ -480,7 +476,7 @@ Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la sigui
 ### 8.4. Consideraciones sobre el Preprocesamiento
 
 - **Selección de Características:**  
-  La elección de las columnas a incluir en el ensamblaje es crítica. En el ejemplo de “mpg” se seleccionan características relevantes para predecir el consumo de combustible. En el conjunto Iris se utilizan todas las medidas disponibles, ya que cada una contribuye a la clasificación de la especie.
+  La elección de las columnas a incluir en el ensamblaje es crítica. En el ejemplo de “mpg" se seleccionan características relevantes para predecir el consumo de combustible. En el conjunto Iris se utilizan todas las medidas disponibles, ya que cada una contribuye a la clasificación de la especie.
 
 - **Normalización y Escalado:**  
   Transformaciones como la normalización ayudan a estabilizar el proceso de entrenamiento, especialmente en algoritmos que se basan en distancias o que son sensibles a la escala de las variables.
