@@ -296,9 +296,9 @@ mpg_data.show(5)
   Es un modelo de clasificación lineal que estima probabilidades para la pertenencia a cada clase. Se utiliza en el ejemplo del conjunto Iris para clasificar las especies de flores basándose en las características medidas.
 
 
-### 6. Ejecución y Evaluación de los Pipelines
+### 6. Ejecución y evaluación de los pipelines
 
-### 6.1. Ajuste del Modelo
+#### 6.1. Ajuste del modelo
 
 Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante este ajuste, cada etapa se entrena secuencialmente. Esto significa que:
   
@@ -306,24 +306,22 @@ Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante es
   
 - En el pipeline de clasificación, el ensamblaje de características y la indexación de etiquetas preparan los datos para que el clasificador (regresión logística) pueda aprender a distinguir entre las diferentes especies de iris.
 
-### 6.2. Predicción y Evaluación
+#### 6.2. Predicción y evaluación
 
 - **Predicción:**  
   Tras el ajuste, se generan predicciones sobre el conjunto de prueba utilizando el método `transform`. Este método aplica todas las transformaciones definidas en el pipeline, incluidas las etapas de preprocesamiento y la predicción final del modelo.
 
-- **Evaluación del Modelo de Regresión:**  
+- **Evaluación del modelo de eegresión:**  
   Se utiliza el *RegressionEvaluator* para calcular el error cuadrático medio (RMSE). Esta métrica es especialmente útil para cuantificar el error de las predicciones en problemas de regresión.
 
-- **Evaluación del Modelo de Clasificación:**  
+- **Evaluación del modelo de clasificación:**  
   Para la clasificación, se emplea el *MulticlassClassificationEvaluator* con la métrica “accuracy", que mide el porcentaje de instancias clasificadas correctamente. Esta evaluación es fundamental para entender la eficacia del modelo en distinguir entre múltiples clases.
 
----
 
-## 7. Código Completo de Ejemplo para Regresión y Clasificación
+### 7. Ejemplo para regresión y clasificación
 
-A continuación se presenta un ejemplo completo que integra todos los componentes explicados. Se incluye la configuración inicial, la carga de datos, la construcción de pipelines, el ajuste, la predicción y la evaluación para ambos casos.
 
-### 7.1. Pipeline de Regresión
+#### 7.1. Pipeline de regresión
 
 ```python
 # Configuración inicial y librerías
@@ -378,7 +376,7 @@ print("Root Mean Squared Error (RMSE) =", rmse)
 spark.stop()
 ```
 
-### 7.2. Pipeline de Clasificación
+#### 7.2. Pipeline de clasificación
 
 ```python
 # Configuración inicial y librerías
@@ -436,22 +434,19 @@ print("Accuracy =", accuracy)
 # Finalizar la sesión de Spark
 spark.stop()
 ```
+### 8. Aspectos técnicos y Detalles Adicionales
 
----
-
-## 8. Aspectos Técnicos y Detalles Adicionales
-
-### 8.1. Flujo de Ejecución del Pipeline
+#### 8.1. Flujo de ejecución del pipeline
 
 Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la siguiente manera:
   
-- **Aplicación Secuencial de Transformaciones:**  
+- **Aplicación secuencial de transformaciones:**  
   Cada etapa (por ejemplo, el ensamblaje de características, el escalado, la indexación) se aplica en orden. Esto garantiza que las transformaciones se encadenen y que cada etapa trabaje sobre el resultado de la etapa anterior.
   
-- **Ajuste del Modelo:**  
+- **Ajuste del modelo:**  
   Una vez transformados los datos, el estimador (ya sea un modelo de regresión o clasificación) se ajusta a los datos transformados. El objeto resultante es un modelo entrenado que incluye la lógica para aplicar las transformaciones y luego hacer predicciones.
 
-### 8.2. Evaluadores y Métricas
+#### 8.2. Evaluadores y métricas
 
 - **RegressionEvaluator:**  
   Permite evaluar modelos de regresión utilizando métricas como RMSE, MAE o R². La elección de la métrica depende del problema y de la interpretación que se quiera dar al error.
@@ -459,12 +454,12 @@ Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la sigui
 - **MulticlassClassificationEvaluator:**  
   Evalúa modelos de clasificación multiclase utilizando métricas como la exactitud (accuracy), F1-score, entre otras. La exactitud es una medida directa de la proporción de predicciones correctas.
 
-### 8.3. Ventajas de Usar Pipelines
+#### 8.3. Ventajas de usar pipelines
 
-- **Modularidad y Reusabilidad:**  
+- **Modularidad y reusabilidad:**  
   Cada etapa del pipeline se puede desarrollar, probar y reutilizar de forma independiente. Esto permite modificar o mejorar partes del proceso sin alterar el flujo completo.
 
-- **Facilidad de Mantenimiento:**  
+- **Facilidad de mantenimiento:**  
   Al encapsular el preprocesamiento y el modelado en un solo objeto, se simplifica el mantenimiento del código, lo que es especialmente útil en entornos de producción.
 
 - **Escalabilidad:**  
@@ -473,39 +468,25 @@ Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la sigui
 - **Reproducibilidad:**  
   Los pipelines aseguran que el mismo proceso de transformación se aplique a nuevos datos. Esto es vital para la consistencia en la producción y para la replicación de resultados.
 
-### 8.4. Consideraciones sobre el Preprocesamiento
+#### 8.4. Consideraciones sobre el preprocesamiento
 
-- **Selección de Características:**  
+- **Selección de características:**  
   La elección de las columnas a incluir en el ensamblaje es crítica. En el ejemplo de “mpg" se seleccionan características relevantes para predecir el consumo de combustible. En el conjunto Iris se utilizan todas las medidas disponibles, ya que cada una contribuye a la clasificación de la especie.
 
-- **Normalización y Escalado:**  
+- **Normalización y escalado:**  
   Transformaciones como la normalización ayudan a estabilizar el proceso de entrenamiento, especialmente en algoritmos que se basan en distancias o que son sensibles a la escala de las variables.
 
-- **Manejo de Variables Categóricas:**  
+- **Manejo de variables categóricas:**  
   Transformar variables categóricas en índices numéricos (por medio de *StringIndexer*) es un paso indispensable en pipelines de clasificación. Sin este paso, los algoritmos no podrían procesar etiquetas textuales.
 
-### 8.5. Ajuste y Validación del Modelo
+#### 8.5. Ajuste y validación del modelo
 
-- **División de Datos:**  
+- **División de datos:**  
   Dividir el conjunto de datos en entrenamiento y prueba (u otros esquemas como validación cruzada) es fundamental para evaluar la capacidad del modelo para generalizar a datos no vistos.
 
-- **Ajuste de Hiperparámetros:**  
+- **Ajuste de hiperparámetros:**  
   Aunque en los ejemplos se usan configuraciones predeterminadas para los modelos, en aplicaciones reales es común utilizar técnicas de búsqueda en cuadrícula (grid search) o validación cruzada para encontrar los parámetros óptimos.
 
-- **Interpretación de Resultados:**  
+- **Interpretación de resultados:**  
   Las métricas de evaluación (como RMSE en regresión y accuracy en clasificación) proporcionan una idea del rendimiento del modelo, pero deben ser interpretadas en el contexto del dominio y de las necesidades específicas de la aplicación.
-
----
-
-## 9. Consideraciones Finales 
-
-La implementación de pipelines en SparkML representa una práctica robusta y escalable para la creación de modelos de Machine Learning. Tanto el pipeline de regresión como el de clasificación presentados muestran cómo integrar múltiples transformaciones y modelos en un solo flujo de trabajo, facilitando la experimentación y la producción.
-
-- La modularidad de las etapas permite modificar o agregar pasos sin tener que reestructurar completamente el código.
-- La capacidad de dividir los datos, ajustar modelos y evaluarlos de forma integrada es una ventaja clave en entornos de big data.
-- El uso de transformaciones específicas para cada tipo de dato (numérico o categórico) garantiza que los modelos reciban la entrada en el formato adecuado.
-
-Este enfoque se vuelve especialmente valioso en proyectos reales, donde la calidad y la preparación de los datos tienen un impacto directo en la precisión y robustez de los modelos de Machine Learning. Además, la integración de evaluadores permite medir de forma objetiva el rendimiento del modelo y ajustar estrategias de preprocesamiento o elección de algoritmos.
-
-Por último, la flexibilidad que ofrecen los pipelines en SparkML permite que se extienda la metodología a otros algoritmos, técnicas de ensamblaje y métodos de evaluación, adaptándose a las necesidades específicas de cada aplicación. Los ejemplos proporcionados aquí son solo una introducción a lo que se puede lograr utilizando PySpark en proyectos de Machine Learning, abriendo la puerta a implementaciones más complejas y robustas en entornos distribuidos.
 
