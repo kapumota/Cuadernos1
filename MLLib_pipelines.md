@@ -5,7 +5,7 @@ En SparkML, un pipeline es una secuencia de etapas (stages) en las que cada etap
 - **Transformadores:** Componentes que toman un DataFrame como entrada y devuelven otro DataFrame transformado. Por ejemplo, se usan para ensamblar características, escalar datos o transformar etiquetas.
 - **Estimadores:** Algoritmos que aprenden a partir de los datos (por ejemplo, modelos de regresión o clasificación). Cuando se ajustan a los datos, producen un transformador (por ejemplo, un modelo entrenado).
 
-El uso de pipelines permite que todo el flujo de trabajo de Machine Learning se defina de forma modular. Esto resulta en procesos de entrenamiento y validación más limpios y reproducibles, ya que cada paso se puede encapsular en una etapa única del pipeline. Además, se facilita el ajuste de hiperparámetros, la validación cruzada y la producción, ya que se trabaja con un único objeto que engloba todas las transformaciones y el modelo.
+El uso de pipelines permite que todo el flujo de trabajo del aprendizaje automático se defina de forma modular. Esto resulta en procesos de entrenamiento y validación más limpios y reproducibles, ya que cada paso se puede encapsular en una etapa única del pipeline. Además, se facilita el ajuste de hiperparámetros, la validación cruzada y la producción, ya que se trabaja con un único objeto que engloba todas las transformaciones y el modelo.
 
 ### 2. Pipeline de regresión con SparkML
 
