@@ -167,7 +167,7 @@ En el procesamiento de grandes volúmenes de datos, es común que se requieran o
 
 Un **Pandas UDF** es una función definida por el usuario que utiliza las estructuras de datos de Pandas (Series o DataFrames) para operar sobre particiones completas de datos. Esto significa que en lugar de operar en cada fila individualmente, la función recibe una serie completa (o columna) y devuelve otra serie, lo que resulta en una mejora significativa en el rendimiento.
 
-#### 7.2 Ejemplo: Conversión de la columna “wt”
+#### 7.2 Ejemplo: Conversión de la columna "wt"
 
 En el ejemplo, se creará un Pandas UDF para convertir la columna **wt** (peso en 1000 libras) a toneladas métricas. La conversión se realiza dividiendo el valor por un factor adecuado. Aunque los detalles exactos de la conversión pueden variar, el objetivo es demostrar cómo aplicar una transformación a nivel de columna utilizando Pandas UDF.
 
