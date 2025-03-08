@@ -9,7 +9,7 @@ El uso de pipelines permite que todo el flujo de trabajo de Machine Learning se 
 
 ### 2. Pipeline de regresión con SparkML
 
-En este ejemplo, se utiliza el conjunto de datos “mpg", que contiene información de automóviles (peso, potencia, desplazamiento del motor, etc.) y la variable objetivo es el consumo de combustible (MPG). Se crean tres etapas en el pipeline de regresión:
+En este ejemplo, se utiliza el conjunto de datos "mpg", que contiene información de automóviles (peso, potencia, desplazamiento del motor, etc.) y la variable objetivo es el consumo de combustible (MPG). Se crean tres etapas en el pipeline de regresión:
 
 #### 2.1. Etapa 1: Ensamblaje de características con *VectorAssembler*
 
@@ -24,7 +24,7 @@ En este ejemplo, se utiliza el conjunto de datos “mpg", que contiene informaci
   ```
 
 - **Explicación:**  
-  El *VectorAssembler* toma las columnas “Weight", “Horsepower" y “Engine Disp" y las consolida en una sola columna llamada “features". Esto es fundamental en SparkML ya que la mayoría de los algoritmos requieren que las características se presenten como un vector numérico.
+  El *VectorAssembler* toma las columnas "Weight", "Horsepower" y "Engine Disp" y las consolida en una sola columna llamada "features". Esto es fundamental en SparkML ya que la mayoría de los algoritmos requieren que las características se presenten como un vector numérico.
 
 #### 2.2. Etapa 2: Escalado de características con *StandardScaler*
 
@@ -54,7 +54,7 @@ En este ejemplo, se utiliza el conjunto de datos “mpg", que contiene informaci
   ```
 
 - **Explicación:**  
-  Se crea una instancia de regresión lineal que utiliza la columna “scaledFeatures" para entrenar el modelo y “MPG" como la variable objetivo. La regresión lineal es un método estadístico que modela la relación lineal entre las variables independientes y la dependiente.
+  Se crea una instancia de regresión lineal que utiliza la columna "scaledFeatures" para entrenar el modelo y "MPG" como la variable objetivo. La regresión lineal es un método estadístico que modela la relación lineal entre las variables independientes y la dependiente.
 
 #### 2.4. Construcción y ajuste del pipeline
 
@@ -283,7 +283,7 @@ mpg_data.show(5)
 #### 5.3. *StringIndexer*
 
 - **Función principal:**  
-  Transforma variables categóricas (como “species" en el conjunto Iris) en índices numéricos.  
+  Transforma variables categóricas (como "species" en el conjunto Iris) en índices numéricos.  
 - **Importancia en clasificación:**  
   Permite convertir etiquetas textuales en valores numéricos que los algoritmos de clasificación pueden interpretar correctamente. Esto es fundamental para el modelo de regresión logística empleado en el pipeline de clasificación.
 
@@ -302,7 +302,7 @@ mpg_data.show(5)
 
 Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante este ajuste, cada etapa se entrena secuencialmente. Esto significa que:
   
-- En el pipeline de regresión, *VectorAssembler* y *StandardScaler* se aplican a los datos para generar las columnas “features" y “scaledFeatures", y luego el modelo de regresión aprende a predecir “MPG".
+- En el pipeline de regresión, *VectorAssembler* y *StandardScaler* se aplican a los datos para generar las columnas "features" y "scaledFeatures", y luego el modelo de regresión aprende a predecir "MPG".
   
 - En el pipeline de clasificación, el ensamblaje de características y la indexación de etiquetas preparan los datos para que el clasificador (regresión logística) pueda aprender a distinguir entre las diferentes especies de iris.
 
@@ -315,7 +315,7 @@ Para ambos casos, el pipeline se ajusta a los datos de entrenamiento. Durante es
   Se utiliza el *RegressionEvaluator* para calcular el error cuadrático medio (RMSE). Esta métrica es especialmente útil para cuantificar el error de las predicciones en problemas de regresión.
 
 - **Evaluación del modelo de clasificación:**  
-  Para la clasificación, se emplea el *MulticlassClassificationEvaluator* con la métrica “accuracy", que mide el porcentaje de instancias clasificadas correctamente. Esta evaluación es fundamental para entender la eficacia del modelo en distinguir entre múltiples clases.
+  Para la clasificación, se emplea el *MulticlassClassificationEvaluator* con la métrica "accuracy", que mide el porcentaje de instancias clasificadas correctamente. Esta evaluación es fundamental para entender la eficacia del modelo en distinguir entre múltiples clases.
 
 
 ### 7. Ejemplo para regresión y clasificación
@@ -449,7 +449,7 @@ Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la sigui
 #### 8.2. Evaluadores y métricas
 
 - **RegressionEvaluator:**  
-  Permite evaluar modelos de regresión utilizando métricas como RMSE, MAE o R². La elección de la métrica depende del problema y de la interpretación que se quiera dar al error.
+  Permite evaluar modelos de regresión utilizando métricas como RMSE, MAE o R2. La elección de la métrica depende del problema y de la interpretación que se quiera dar al error.
 
 - **MulticlassClassificationEvaluator:**  
   Evalúa modelos de clasificación multiclase utilizando métricas como la exactitud (accuracy), F1-score, entre otras. La exactitud es una medida directa de la proporción de predicciones correctas.
@@ -471,7 +471,7 @@ Cuando se invoca el método `fit` sobre un pipeline, SparkML procede de la sigui
 #### 8.4. Consideraciones sobre el preprocesamiento
 
 - **Selección de características:**  
-  La elección de las columnas a incluir en el ensamblaje es crítica. En el ejemplo de “mpg" se seleccionan características relevantes para predecir el consumo de combustible. En el conjunto Iris se utilizan todas las medidas disponibles, ya que cada una contribuye a la clasificación de la especie.
+  La elección de las columnas a incluir en el ensamblaje es crítica. En el ejemplo de "mpg" se seleccionan características relevantes para predecir el consumo de combustible. En el conjunto Iris se utilizan todas las medidas disponibles, ya que cada una contribuye a la clasificación de la especie.
 
 - **Normalización y escalado:**  
   Transformaciones como la normalización ayudan a estabilizar el proceso de entrenamiento, especialmente en algoritmos que se basan en distancias o que son sensibles a la escala de las variables.
