@@ -184,7 +184,7 @@ datos_dummies.head()
 - **Consideración clave:**  
   Es fundamental asegurarse de que tanto el conjunto de entrenamiento como el de prueba tengan las mismas columnas después de la codificación para evitar errores en el modelado.
 
-### 4. Conversión a matriz numérica y separación de variables
+#### 4. Conversión a matriz numérica y separación de variables
 
 ```python
 # Seleccionar características (corrigiendo el error de ix)
@@ -254,7 +254,7 @@ En muchos conjuntos de datos, las variables categóricas se pueden codificar de 
 - **Con escala ordinal:**  
   Por ejemplo, en calificaciones de estrellas de 1 a 5, donde sí existe un orden natural. La decisión de tratarlas como continuas o categóricas dependerá del modelo y del contexto.
 
-### Métodos de codificación: `pandas.get_dummies()` vs `OneHotEncoder`
+#### Métodos de codificación: `pandas.get_dummies()` vs `OneHotEncoder`
 
 #### pandas.get_dummies()
 
