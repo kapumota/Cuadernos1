@@ -379,7 +379,7 @@ print("Dimensión de X_binned: {}".format(X_binned.shape))
   Cada punto de datos se representa mediante un vector en el que solo la entrada correspondiente al bin al que pertenece es 1, y el resto son 0. Esto permite que se utilice la misma lógica de codificación para transformar variables continuas en categóricas y modelarlas con algoritmos que se benefician de una representación segmentada.
 
 
-### Integración de técnicas en modelos y redes neuronales
+#### Integración de técnicas en modelos y redes neuronales
 
 #### Uso directo en redes neuronales
 
@@ -436,3 +436,224 @@ El ejemplo final muestra cómo distintos modelos se comportan cuando se aplican 
 - **Uso de un SVM con Kernel RBF:**  
   Se muestra cómo un modelo basado en SVM, que utiliza un kernel RBF, es capaz de aprender una función compleja sin necesidad de transformar explícitamente la característica. Esto resalta que algunos modelos pueden aprender representaciones no lineales directamente de los datos originales, aunque la ingeniería de características sigue siendo muy útil para simplificar la tarea de aprendizaje y mejorar la interpretabilidad del modelo.
 
+A continuación se ofrece una explicación detallada del código y de los conceptos presentados, con un énfasis especial en cómo se pueden aplicar y adaptar estas técnicas al ámbito de las redes neuronales.
+
+### Ejemplo
+
+En el procesamiento de datos para modelos de machine learning, la calidad de las características (features) es fundamental. En el caso de las redes neuronales, la forma en que se presentan los datos al modelo afecta tanto la velocidad de convergencia durante el entrenamiento como la capacidad de generalización. Las transformaciones de características, que incluyen el escalado, la generación de interacciones y términos polinómicos, son herramientas muy poderosas. Aunque las redes neuronales profundas son capaces de aprender representaciones complejas a partir de datos sin procesar, en muchos escenarios –especialmente cuando se trabaja con conjuntos de datos de tamaño moderado o cuando se desea aprovechar conocimiento previo del dominio– la ingeniería de características explícita puede mejorar significativamente el rendimiento del modelo.
+
+En el ejemplo que se presenta, se utiliza el conjunto de datos de California Housing para demostrar cómo se pueden construir nuevas características a partir de las originales y cómo estas transformaciones influyen en el rendimiento del modelo. Además, se ilustra la aplicación de transformaciones no lineales univariadas en un conjunto de datos de recuentos, lo cual es muy relevante en contextos en los que la distribución de las variables es asimétrica o presenta valores extremos.
+
+
+#### 1. Carga y escalado de datos con MinMaxScaler
+
+El primer bloque de código se encarga de cargar el conjunto de datos de California Housing y de reescalar las características para que todas se encuentren en un rango común (usualmente entre 0 y 1). Este paso es crucial para redes neuronales, ya que:
+
+- **Optimiza la convergencia:**  
+  Los algoritmos de optimización basados en gradiente (como Adam, SGD, etc.) funcionan mejor cuando las entradas están en una escala uniforme.  
+- **Evita problemas numéricos:**  
+  Diferencias muy grandes en la escala pueden llevar a gradientes desproporcionados que afecten el entrenamiento.
+
+El código es el siguiente:
+
+```python
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+# Cargar el conjunto de datos de California Housing
+housing = fetch_california_housing()
+X = housing.data
+y = housing.target
+
+# Dividir los datos en conjuntos de entrenamiento y prueba
+X_entrenamiento, X_prueba, y_entrenamiento, y_prueba = train_test_split(X, y, random_state=0)
+
+# Reescalar los datos
+escalador = MinMaxScaler()
+X_entrenamiento_escalado = escalador.fit_transform(X_entrenamiento)
+X_prueba_escalado = escalador.transform(X_prueba)
+```
+
+**Explicación:**  
+- Se obtiene el dataset utilizando la función `fetch_california_housing()`.
+- Se separan los datos en entrenamiento y prueba con `train_test_split()`.
+- Se reescalan las características mediante `MinMaxScaler()`, transformándolas a un rango [0, 1].  
+En el contexto de redes neuronales, es común utilizar escaladores como MinMaxScaler o StandardScaler (para normalizar a media 0 y varianza 1), dependiendo de la naturaleza de los datos y del modelo utilizado.
+
+
+#### 2. Extracción de características polinomiales e interacciones
+
+Una vez que las características están escaladas, se procede a expandir el espacio de características utilizando términos polinomiales de grado 2. Esto significa que se generan tanto los términos individuales como las interacciones entre características. El código utilizado es:
+
+```python
+from sklearn.preprocessing import PolynomialFeatures
+
+# Se generan características polinomiales (incluyendo interacciones) hasta el grado 2
+polinomio = PolynomialFeatures(degree=2).fit(X_entrenamiento_escalado)
+X_entrenamiento_polinomio = polinomio.transform(X_entrenamiento_escalado)
+X_prueba_polinomio = polinomio.transform(X_prueba_escalado)
+
+print("Dimensión X_entrenamiento: {}".format(X_entrenamiento.shape))
+print("Dimensión X_entrenamiento_polinomio: {}".format(X_entrenamiento_polinomio.shape))
+```
+
+**Conceptos clave:**
+- **Características polinomiales:**  
+  Se incluyen términos de segundo orden que pueden capturar relaciones no lineales entre las variables originales. Por ejemplo, si se tiene una característica $x$, se añade $x^2$ y, si existen dos características $x_1$ y $x_2$, se añade el término de interacción $x_1 \times x_2$.
+- **Interacciones:**  
+  Permiten que el modelo capte cómo la combinación de dos variables puede influir en la variable objetivo.  
+- **Importancia en redes neuronales:**  
+  Aunque las redes profundas pueden, en teoría, aprender interacciones de forma implícita a través de múltiples capas, en redes neuronales más superficiales o cuando se dispone de pocos datos, la incorporación explícita de estas interacciones puede facilitar el aprendizaje de patrones complejos. Además, al transformar las entradas, se puede mejorar la interpretación y la estabilidad numérica del entrenamiento.
+
+La función `get_feature_names_out()` permite conocer la correspondencia exacta entre las características originales y las generadas:
+
+```python
+print("Nombres de caracteristicas polinomiales:\n{}".format(polinomio.get_feature_names_out()))
+```
+
+Esto es útil para comprender qué combinaciones se están incluyendo, lo que puede servir para análisis posteriores o para aplicar técnicas de reducción de dimensionalidad si la expansión resulta excesiva.
+
+#### 3. Comparación del rendimiento de modelos: Ridge vs. RandomForest
+
+La idea es comparar cómo la incorporación de interacciones y términos polinómicos afecta el rendimiento de dos modelos distintos: un modelo lineal regularizado (Ridge) y un modelo basado en ensambles (RandomForest). Se realiza lo siguiente:
+
+#### Modelo Ridge
+
+```python
+from sklearn.linear_model import Ridge
+
+# Modelo Ridge sin interacciones
+ridge = Ridge().fit(X_entrenamiento_escalado, y_entrenamiento)
+print("Puntuación sin interacciones: {:.3f}".format(ridge.score(X_prueba_escalado, y_prueba)))
+
+# Modelo Ridge con interacciones
+ridge = Ridge().fit(X_entrenamiento_polinomio, y_entrenamiento)
+print("Puntuación con interacciones: {:.3f}".format(ridge.score(X_prueba_polinomio, y_prueba)))
+```
+
+**Observaciones:**
+- En modelos lineales, la incorporación de interacciones y términos polinómicos suele mejorar la capacidad del modelo para capturar relaciones no lineales.
+- Para redes neuronales, especialmente en arquitecturas menos profundas, añadir estas transformaciones puede ayudar a reducir la complejidad que la red debe aprender, facilitando una convergencia más rápida y, en algunos casos, un mejor rendimiento.
+
+#### Modelo RandomForest
+
+```python
+from sklearn.ensemble import RandomForestRegressor
+
+rf = RandomForestRegressor(n_estimators=100).fit(X_entrenamiento_escalado, y_entrenamiento)
+print("Puntuación sin interacciones: {:.3f}".format(rf.score(X_prueba_escalado, y_prueba)))
+
+rf = RandomForestRegressor(n_estimators=100).fit(X_entrenamiento_polinomio, y_entrenamiento)
+print("Puntuación con interacciones: {:.3f}".format(rf.score(X_prueba_polinomio, y_prueba)))
+```
+
+**Observaciones:**
+- Los modelos basados en árboles (como RandomForest) capturan interacciones y no requieren necesariamente la transformación polinómica previa, ya que pueden aprender divisiones no lineales de manera automática.
+- En algunos casos, agregar características polinomiales a un modelo de bosque aleatorio puede incluso disminuir ligeramente el rendimiento, ya que el modelo ya es suficientemente flexible y la expansión del espacio de características puede introducir ruido o redundancia.
+
+**Orientación a redes neuronales:**  
+- En el contexto de redes neuronales, la incorporación de características polinomiales o de interacción es un arma de doble filo. En redes profundas con suficiente capacidad, la red puede aprender estas relaciones de forma interna. Sin embargo, en arquitecturas más simples o cuando se dispone de pocos datos, la ingeniería de características explícita puede ayudar a mejorar el rendimiento.
+- Además, la presencia de muchas características generadas (especialmente en grados altos) puede incrementar el riesgo de sobreajuste, por lo que es importante considerar técnicas de regularización y métodos de reducción de dimensionalidad.
+
+#### 4. Transformaciones no lineales univariadas
+
+Cuando las características presentan distribuciones muy asimétricas o están sesgadas, las transformaciones no lineales pueden ayudar a que la distribución se asemeje más a la gaussiana, lo que facilita el aprendizaje de modelos lineales y redes neuronales. En el ejemplo se utilizan transformaciones logarítmicas para datos de recuentos.
+
+#### Generación de datos artificiales de recuento
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+rnd = np.random.RandomState(0)
+X_org = rnd.normal(size=(1000, 3))
+w = rnd.normal(size=3)
+
+# Se generan recuentos (valores enteros positivos) a partir de una transformación exponencial
+X = rnd.poisson(10 * np.exp(X_org))
+y = np.dot(X_org, w)
+```
+
+**Contexto y propósito:**
+- Se generan datos artificiales en los que las características son enteras y representan recuentos. Los recuentos suelen tener distribuciones sesgadas y pueden presentar una alta varianza.
+- En redes neuronales, entrenar con datos con distribuciones muy asimétricas puede dificultar la convergencia, ya que la red es sensible a la escala y distribución de cada variable.
+
+#### Visualización y análisis de la distribución
+
+```python
+print("Número de apariciones de la primera característica:\n{}".format(np.bincount(X[:, 0])))
+```
+
+Posteriormente se visualiza la frecuencia de aparición de cada valor:
+
+```python
+bins_val = np.bincount(X[:, 0])
+plt.bar(range(len(bins_val)), bins_val, color='grey')
+plt.ylabel("Número de apariciones")
+plt.xlabel("Valores")
+plt.show()
+```
+
+**Interpretación:**
+- El histograma permite observar que algunos valores tienen una frecuencia muy alta mientras que otros aparecen con poca frecuencia, lo cual es típico en datos de recuentos.
+
+#### Ajuste de un modelo Ridge antes y después de la transformación logarítmica
+
+Sin transformación:
+
+```python
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+
+X_entrenamiento, X_prueba, y_entrenamiento, y_prueba = train_test_split(X, y, random_state=0)
+puntuacion = Ridge().fit(X_entrenamiento, y_entrenamiento).score(X_prueba, y_prueba)
+print("Puntuación del conjunto de prueba (sin transformación): {:.3f}".format(puntuacion))
+```
+
+Dado que la función logaritmo no está definida para 0, se aplica la transformación logarítmica ajustada (log(X + 1)):
+
+```python
+X_entrenamiento_log = np.log(X_entrenamiento + 1)
+X_prueba_log = np.log(X_prueba + 1)
+```
+
+Se visualiza el histograma de la primera característica transformada:
+
+```python
+plt.hist(X_entrenamiento_log[:, 0], bins=25, color='gray')
+plt.ylabel("Número de apariciones")
+plt.xlabel("Valores transformados")
+plt.show()
+```
+
+Finalmente, se vuelve a ajustar el modelo Ridge sobre los datos transformados:
+
+```python
+puntuacion = Ridge().fit(X_entrenamiento_log, y_entrenamiento).score(X_prueba_log, y_prueba)
+print("Puntuación del conjunto de prueba (con transformación logarítmica): {:.3f}".format(puntuacion))
+```
+
+**Relevancia en redes neuronales:**
+- Las transformaciones logarítmicas, exponenciales, o funciones trigonométricas (como sin o cos) son muy útiles para modificar la distribución de los datos.  
+- En redes neuronales, donde la activación y la propagación de gradientes pueden verse afectadas por entradas con rangos muy amplios o distribuciones sesgadas, aplicar estas transformaciones puede ayudar a estabilizar el entrenamiento.
+- Además, cuando se trabaja con datos de recuento o variables que abarcan varios órdenes de magnitud, la transformación logarítmica reduce la asimetría y permite que la red capture de manera más efectiva las relaciones subyacentes.
+
+#### 5. Aplicación y adaptación de estas técnicas en redes neuronales
+
+Aunque el ejemplo utiliza modelos como Ridge y RandomForest para ilustrar el impacto de las transformaciones de características, los mismos principios se aplican en redes neuronales:
+
+- **Escalado y normalización:**  
+  Es casi una regla de oro en redes neuronales reescalar las características (por ejemplo, utilizando MinMaxScaler o StandardScaler) para garantizar que los gradientes no se vuelvan demasiado pequeños o grandes. Esto mejora la estabilidad y velocidad de convergencia durante el entrenamiento.
+
+- **Expansión del espacio de características (interacciones y polinomios):**  
+  Mientras que las redes neuronales profundas tienen la capacidad de aprender interacciones y relaciones no lineales de manera implícita, en redes superficiales o en casos con pocos datos, incorporar de forma explícita interacciones puede ayudar. Por ejemplo, al incluir características polinomiales se proporciona al modelo información adicional que puede facilitar la aproximación de funciones complejas sin requerir un número excesivo de neuronas o capas.
+
+- **Transformaciones no lineales univariadas:**  
+  La aplicación de funciones como log, exp, sin y cos es especialmente importante en redes neuronales cuando se trabaja con datos que no siguen una distribución normal. Estas transformaciones pueden ayudar a homogenizar la escala de las entradas, lo que se traduce en una propagación más eficiente de los gradientes y en una mayor estabilidad durante el entrenamiento.
+
+- **Regularización y control de la dimensionalidad:**  
+  Al expandir el espacio de características, se corre el riesgo de aumentar la dimensionalidad de manera excesiva, lo que podría llevar a problemas de sobreajuste. En redes neuronales, esto se compensa mediante técnicas de regularización (como dropout, L2 regularization, etc.) y, en ocasiones, mediante la reducción de dimensionalidad antes de alimentar la red.
+
+- **Interpretabilidad y preprocesamiento manual:**  
+  Si bien las redes neuronales modernas pueden aprender representaciones complejas de manera automática, en ciertos escenarios es ventajoso aplicar ingeniería de características para mejorar la interpretabilidad del modelo o para incorporar conocimiento previo del dominio. Esto es especialmente relevante en aplicaciones críticas o en entornos donde la explicabilidad es un requisito.
