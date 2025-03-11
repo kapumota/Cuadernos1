@@ -128,7 +128,7 @@ Diversos algoritmos y herramientas se utilizan para identificar y transformar la
 - **Mejora en el rendimiento:**  
   Al proporcionar características de alta calidad, se pueden capturar relaciones complejas entre variables que las capas ocultas de una red neuronal podrán explotar para obtener mejores predicciones.
 
-#### Procesamiento de Datos y Big Data
+#### Procesamiento de datos y big data
 
 - **Escalabilidad:**  
   En entornos de big data, la transformación y limpieza de grandes volúmenes de datos requieren técnicas de ingeniería de características que sean escalables. Herramientas como Apache Spark ofrecen módulos para realizar estas transformaciones en paralelo, permitiendo trabajar con datasets de gran tamaño.
