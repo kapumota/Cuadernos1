@@ -69,7 +69,7 @@
   Manning Publications Co. (2020)  
 
 - **Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition**  
-  [Borrador](https://web.stanford.edu/~jurafsky/slp3/ed3book_dec302020.pdf) (2020)  
+  [Borrador](https://web.stanford.edu/~jurafsky/slp3/) (2020)  
 
 - **Practical Natural Language Processing: A Comprehensive Guide to Building Real-World NLP Systems**  
   Sowmya Vajjala, Bodhisattwa Majumder, Anuj Gupta, Harshit Surana  
