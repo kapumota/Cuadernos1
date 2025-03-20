@@ -11,26 +11,12 @@
   Philip Klein  
   Newtonian Press; 1ra edición (7 abril 2015)  
 
-- **Natural Language Understanding with Distributed Representation**  
-  Kyunghyun Cho  
-  Courant Institute of Mathematical Sciences y Center for Data Science, New York University (2015)  
-
 #### 2016
 - **Introduction to Machine Learning**  
   Sara Guido, Andreas C. Muller  
   O'Reilly Media (2016)  
 
-#### 2017
-- **Introduction to Artificial Intelligence**  
-  Wolfgang Ertel  
-  Springer International Publishing AG; 2da edición (2017)  
-
-
 #### 2018
-- **Artificial Intelligence: With an Introduction to Machine Learning**  
-  Richard E. Neapolitan, Xia Jiang  
-  Chapman and Hall/CRC; 2da edición (2018)  
-
 - **The Hundred-Page Machine Learning Book**  
   Andriy Burkov  
   [http://themlbook.com/](http://themlbook.com/) (2018)  
@@ -62,11 +48,19 @@
 - **Mathematics for Machine Learning**  
   Marc Peter Deisenroth  
   Cambridge University Press; 1ra edición (23 abril 2020)  
-  [https://mml-book.github.io/](https://mml-book.github.io/)  
+  [https://mml-book.github.io/](https://mml-book.github.io/)
+
+- **The Art of Feature Engineering**
+  Pablo Duboue 2020
+  Cambridge University Press 
 
 - **Deep Learning with PyTorch**  
   Eli Stevens, Luca Antiga, Thomas Viehmann  
-  Manning Publications Co. (2020)  
+  Manning Publications Co. (2020)
+
+- **Modern Computer Vision with PyTorch**
+  V Kishore Ayyadevara, Yeshwanth Reddy
+  Packt Publishing 2020.
 
 - **Speech and Language Processing: An Introduction to Natural Language Processing, Computational Linguistics, and Speech Recognition**  
   [Borrador](https://web.stanford.edu/~jurafsky/slp3/) (2020)  
@@ -87,6 +81,7 @@
   Lomit Patel  
   O'Reilly Media; 1ra edición (2020)  
 
+
 #### 2021
 - **Machine Learning Foundations: Supervised, Unsupervised, and Advanced Learning**  
   Taeho Jo  
@@ -94,14 +89,36 @@
 
 - **Artificial Intelligence: A Textbook**  
   Charu C. Aggarwal  
-  Springer Nature Switzerland AG (2021)  
+  Springer Nature Switzerland AG  (2021)
+   
+- **Graph Machine Learning**
+  Claudio Stamile Aldo Marzullo Enrico Deusebio
+  Packt Publishing 2021
 
-#### 2023
-- **Generative AI with LangChain: Build Large Language Model (LLM) Apps with Python, ChatGPT, and Other LLMs**  
-  Ben Auffarth  
-  Packt Publishing (22 diciembre 2023)  
+- **Machine Learning Bookcamp: Build a portfolio of real-life projects**
+  Alexey Grigorev
+  Manning Publications Co. 2021
 
+- **Machine Learning**
+  Zhi-Hua Zhou
+  Springer Nature Singapore 2021.
+
+#### 2022
+
+- **Machine Learning Engineering in Action**
+  Ben Wilson
+  Manning Publications Co. 2022
+
+- **Essential Math for Data Science: Take Control of Your Data with Fundamental Linear Algebra, Probability, and Statistics**
+  Thomas Nield
+  Published by O’Reilly Media 2022.
+  
 #### 2024
 - **Machine Learning Q and AI: 30 Essential Questions and Answers on Machine Learning and AI**  
   Sebastián Raschka  
-  No Starch Press (2024)  
+  No Starch Press (2024)
+
+- **Python Feature Engineering Cookbook: A complete guide to crafting powerful features for your machine learning models**
+  Soledad Galli
+  Packt Publishing 2024.
+  
