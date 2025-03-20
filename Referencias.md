@@ -34,7 +34,11 @@
 
 - **Deep Learning for NLP and Speech Recognition**  
   Uday Kamath, John Liu, James Whitaker  
-  Springer Nature Switzerland AG (2019)  
+  Springer Nature Switzerland AG (2019)
+
+- **Deep Learning from Scratch**
+Seth Weidman
+Published by O’Reilly Media, Inc. 2019.
 
 #### 2020
 - **Artificial Intelligence: A Modern Approach (Pearson Series in Artificial Intelligence)**  
@@ -107,17 +111,31 @@
 
 - **Machine Learning Engineering in Action**
   Ben Wilson
-  Manning Publications Co. 2022
+  Manning Publications Co. 2022.
 
 - **Essential Math for Data Science: Take Control of Your Data with Fundamental Linear Algebra, Probability, and Statistics**
   Thomas Nield
   Published by O’Reilly Media 2022.
+
+- **Inside Deep Learning Math, Algorithms, Models**
+  Edward Raff
+  Manning Publications Co. 2022.
+
+#### 2023
+
+- **Ensemble Methods for Machine Learning**
+  Gautam Kunapuli
+  Manning Publications Co. 2023
   
 #### 2024
 - **Machine Learning Q and AI: 30 Essential Questions and Answers on Machine Learning and AI**  
   Sebastián Raschka  
   No Starch Press (2024)
 
+- **Hands-On Large Language Models: Language Understanding and Generation**
+  Jay Alammar , Maarten Grootendorst
+  O'Reilly Media; Primera edición (15 Octubre 2024)
+  
 - **Python Feature Engineering Cookbook: A complete guide to crafting powerful features for your machine learning models**
   Soledad Galli
   Packt Publishing 2024.
